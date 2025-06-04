@@ -4,7 +4,7 @@ use axum::{
   routing::{get, post},
   Json, Router,
 };
-use sqlx::{Executor, PgPool};
+use sqlx::PgPool;
 
 async fn hello_world() -> &'static str {
   "OK"
@@ -52,6 +52,12 @@ async fn main(
   let router = Router::new()
     .route("/", get(hello_world))
     .route("/send", post(receive_message))
+    .layer(
+      tower_http::cors::CorsLayer::new()
+        .allow_origin(tower_http::cors::Any)
+        .allow_methods([axum::http::Method::GET, axum::http::Method::POST])
+        .allow_headers([axum::http::header::CONTENT_TYPE]),
+    )
     .with_state(state);
 
   Ok(router.into())

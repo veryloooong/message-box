@@ -1156,6 +1156,7 @@ dependencies = [
  "shuttle-shared-db",
  "sqlx",
  "tokio",
+ "tower-http",
 ]
 
 [[package]]
