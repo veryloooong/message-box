@@ -7,7 +7,7 @@ use axum::{
 use sqlx::{Executor, PgPool};
 
 async fn hello_world() -> &'static str {
-  "Hello, world!"
+  "OK"
 }
 
 async fn receive_message(State(state): State<AppState>, Json(message): Json<Message>) -> StatusCode {
@@ -42,7 +42,6 @@ async fn main(
   #[shuttle_runtime::Secrets] secrets: shuttle_runtime::SecretStore,
   #[shuttle_shared_db::Postgres(local_uri = "{secrets.POSTGRES_LOCAL_URI}")] pool: PgPool,
 ) -> shuttle_axum::ShuttleAxum {
-  // migrate the database
   sqlx::migrate!("./migrations")
     .run(&pool)
     .await
